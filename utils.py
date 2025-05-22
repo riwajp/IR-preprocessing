@@ -1,7 +1,8 @@
 import re
+import csv
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-
+from collections import defaultdict
 
 # Set stop words list
 STOP_WORDS = set(stopwords.words('english'))
@@ -28,6 +29,28 @@ def lemmatize(tokens):
 
 
 
+def build_and_save_inverted_index_csv(input_file, output_file, content_column="Processed"):
+    index = defaultdict(lambda: defaultdict(list))
+
+  
+    with open(input_file, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for doc_id, row in enumerate(reader):
+            text = str(row.get(content_column, '')).strip()
+            if not text:
+                continue
+            tokens = text.split()
+            for pos, token in enumerate(tokens):
+                index[token][doc_id].append(pos)
+
+    # Write to CSV
+    with open(output_file, 'w', newline='', encoding='utf-8') as f_out:
+        writer = csv.writer(f_out)
+        writer.writerow(['Term', 'DocID', 'Positions'])  
+
+        for term, positions in index.items():
+            for doc_id, positions in positions.items():
+                writer.writerow([term, doc_id, ' '.join(map(str, positions))])
 
 
 
