@@ -26,22 +26,20 @@ def remove_stopwords(tokens):
 def lemmatize(tokens):
     return [lemmatizer.lemmatize(token) for token in tokens]
 
-def porter_stem(tokens):
-    def stem(word):
-        suffixes = ['ing', 'ly', 'ed', 'ious', 'ies', 'ive', 'es', 's', 'ment']
-        for suf in suffixes:
-            if word.endswith(suf) and len(word) > len(suf) + 2:
-                return word[:-len(suf)]
-        return word
-    return [stem(t) for t in tokens]
 
-def process_content(text):
-    text = clean_text(text)
-    tokens = tokenize(text)
-    tokens = remove_stopwords(tokens)
-    tokens = lemmatize(tokens)
-    tokens = porter_stem(tokens)
-    return ' '.join(tokens)
+
+
+
+
+# def porter_stem(tokens):
+#     def stem(word):
+#         suffixes = ['ing', 'ly', 'ed', 'ious', 'ies', 'ive', 'es', 's', 'ment']
+#         for suf in suffixes:
+#             if word.endswith(suf) and len(word) > len(suf) + 2:
+#                 return word[:-len(suf)]
+#         return word
+#     return [stem(t) for t in tokens]
+
 
 
 
